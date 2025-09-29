@@ -14,7 +14,9 @@ in
       { ... }:
 
       {
-        imports = builtins.map (module: self.nixosModules.${module}) (builtins.attrNames modules);
+        imports = builtins.map (module: self.nixosModules.${module}) (
+          builtins.attrNames (removeAttrs modules [ "nanoSystem" ])
+        );
       };
   }
   // modules;
