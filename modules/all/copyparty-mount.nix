@@ -5,7 +5,13 @@
 }:
 
 let
-  inherit (lib) mkOption types mkEnableOption literalExpression mkIf;
+  inherit (lib)
+    mkOption
+    types
+    mkEnableOption
+    literalExpression
+    mkIf
+    ;
 
   cfg = config.services.copyparty-mount;
 in
@@ -71,7 +77,10 @@ in
 
     fsExtraOptions = mkOption {
       type = types.listOf types.str;
-      default = [ "x-systemd.automount" "noauto" ];
+      default = [
+        "x-systemd.automount"
+        "noauto"
+      ];
       example = literalExpression ''
         [
           "x-systemd.automount"
@@ -81,7 +90,7 @@ in
       '';
       description = ''
         Options to use in {option}`fileSystems.<name>.options`.
-      ''
+      '';
     };
   };
 
@@ -99,7 +108,12 @@ in
     fileSystems.${cfg.target} = {
       device = "${cfg.server}${cfg.path}";
       fsType = "davfs";
-      options = [ "uid=${config.users.groups.copyparty-mount.uid}" "gid=${config.users.groups.copyparty-mount.gid}" "umask=007" ] ++ cfg.fsExtraOptions;
+      options = [
+        "uid=${config.users.groups.${cfg.user}.uid}"
+        "gid=${config.users.groups.${cfg.group}.gid}"
+        "umask=007"
+      ]
+      ++ cfg.fsExtraOptions;
     };
   };
 }
