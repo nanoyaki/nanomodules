@@ -1,15 +1,21 @@
 { self, lib, ... }:
 
+let
+  inherit (lib) mapAttrs' nameValuePair removeSuffix;
+
+  modules = mapAttrs' (
+    module: _: nameValuePair (removeSuffix ".nix" module) (import ./all + "/${module}")
+  ) (builtins.readDir ./all);
+in
+
 {
   flake.nixosModules = {
-    copyparty-mount = import ./all/copypary-mount.nix;
     all =
       { ... }:
 
       {
-        imports = builtins.map (module: self.nixosModules.${module}) (
-          lib.remove "all" (builtins.attrNames self.nixosModules)
-        );
+        imports = builtins.map (module: self.nixosModules.${module}) (builtins.attrNames modules);
       };
-  };
+  }
+  // modules;
 }
