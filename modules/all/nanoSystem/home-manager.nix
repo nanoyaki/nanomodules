@@ -14,7 +14,7 @@ let
     attrNames
     mkAliasOptionModule
     ;
-  inherit (inputs) home-manager;
+  inherit (inputs) home-manager nanomodules;
 
   sharedAlias = mkAliasOptionModule [ "hms" ] [ "home-manager" "sharedModules" ];
   mainHomeConfigAlias =
@@ -53,7 +53,7 @@ in
     verbose = true;
 
     sharedModules = [
-      self.homeManagerModules.symlinks
+      nanomodules.homeModules.symlinks
       {
         programs.home-manager.enable = true;
         home.shell.enableShellIntegration = true;

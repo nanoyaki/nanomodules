@@ -44,6 +44,7 @@ in
     ./git.nix
     ./input.nix
     ./boot.nix
+    ./comfort.nix
   ]
   ++ singleton (./. + config.nanoSystem.systemType);
 
@@ -178,5 +179,7 @@ in
     nixpkgs.hostPlatform.system = platform;
 
     networking.useDHCP = lib.mkDefault true;
+
+    utilities.comfort.enable = lib.mkDefault true;
   };
 }
