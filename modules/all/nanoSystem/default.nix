@@ -45,6 +45,7 @@ in
     ./input.nix
     ./boot.nix
     ./comfort.nix
+    ./deployment.nix
   ]
   ++ singleton (./. + config.nanoSystem.systemType);
 

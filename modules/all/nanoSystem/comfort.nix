@@ -10,16 +10,18 @@ let
 in
 
 {
-  options.utilities.comfort.enable = (mkEnableOption ''what nano deems as "comfort utilities"'') // {
-    description = ''
-      This enables utilities that I use on a regular
-      basis and are by no means required. Feel free
-      to just keep these disabled as these are very
-      opinionated.
-    '';
-  };
+  options.nanoSystem.comfort-utilities.enable =
+    (mkEnableOption ''what nano deems as "comfort utilities"'')
+    // {
+      description = ''
+        This enables utilities that I use on a regular
+        basis and are by no means required. Feel free
+        to just keep these disabled as these are very
+        opinionated.
+      '';
+    };
 
-  config = mkIf config.utilities.comfort.enable {
+  config = mkIf config.nanoSystem.comfort-utilities.enable {
     users.defaultUserShell = pkgs.zsh;
     programs.zsh = {
       enable = true;

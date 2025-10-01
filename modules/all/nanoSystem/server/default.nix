@@ -1,3 +1,3 @@
 {
-  imports = [ ./deployment.nix ];
+  nanoSystem.deployment.enable = true;
 }
