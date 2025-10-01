@@ -1,3 +1,3 @@
 {
-  flake.homeManagerModules.symlinks = import ./all/symlinks.nix;
+  flake.homeModules.symlinks = import ./all/symlinks.nix;
 }
