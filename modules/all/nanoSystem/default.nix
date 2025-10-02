@@ -51,7 +51,7 @@ in
 
   options.nanoSystem = {
     users = mkOption {
-      types = types.attrsOf (
+      type = types.attrsOf (
         types.submodule (
           { config, name, ... }:
 
