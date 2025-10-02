@@ -47,7 +47,7 @@ in
     ./comfort.nix
     ./deployment.nix
   ]
-  ++ singleton (./. + config.nanoSystem.systemType);
+  ++ singleton (./. + "/${type}");
 
   options.nanoSystem = {
     users = mkOption {
