@@ -7,11 +7,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1756770412,
-        "narHash": "sha256-+uWLQZccFHwqpGqr2Yt5VsW/PbeJVTn9Dk6SHWhNRPw=",
+        "lastModified": 1759362264,
+        "narHash": "sha256-wfG0S7pltlYyZTM+qqlhJ7GMw2fTF4mLKCIVhLii/4M=",
         "owner": "hercules-ci",
         "repo": "flake-parts",
-        "rev": "4524271976b625a4a605beefd893f270620fd751",
+        "rev": "758cf7296bee11f1706a574c77d072b8a7baa881",
         "type": "github"
       },
       "original": {
@@ -33,11 +33,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1759348294,
-        "narHash": "sha256-eXXYhbmbAW4w5ZBHGrOPe2sWnujuKMDuiRJlgZVO9x0=",
+        "lastModified": 1759353161,
+        "narHash": "sha256-Co0nfks6gZg+/n7KIvwZQL6gq598sPUvUdx+h9XVhxE=",
         "ref": "refs/heads/main",
-        "rev": "adb57b3957ac537dfe14a548bd4b076456121601",
-        "revCount": 4,
+        "rev": "ca34266495a23a18a6195b574f9f6a3fd1024c59",
+        "revCount": 5,
         "type": "git",
         "url": "https://git.theless.one/nanoyaki/nanolib.git"
       },
