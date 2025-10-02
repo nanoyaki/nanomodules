@@ -4,7 +4,7 @@ let
   inherit (lib) mapAttrs' nameValuePair removeSuffix;
 
   modules = mapAttrs' (
-    module: _: nameValuePair (removeSuffix ".nix" module) (import ./all + "/${module}")
+    module: _: nameValuePair (removeSuffix ".nix" module) (import (./all + "/${module}"))
   ) (builtins.readDir ./all);
 in
 
