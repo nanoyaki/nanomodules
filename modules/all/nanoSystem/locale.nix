@@ -45,7 +45,7 @@ in
     locale = mkOption {
       # The regex for the character set is quite silly
       # but covers every character set i can think of
-      type = types.strMatching ''^[a-z]{2}_[A-Z]{2}\.[A-Z0-9\-\.\:\/\(\)]*'';
+      type = types.strMatching ''^[a-z]{2}_[A-Z]{2}\.[-A-Z0-9\.:/\(\)]*$'';
       default = "en_GB.UTF-8";
       example = "de_DE.UTF-8";
       description = ''
