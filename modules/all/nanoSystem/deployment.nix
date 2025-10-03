@@ -55,7 +55,7 @@ in
   config = mkIf cfg.enable {
     assertions = [
       {
-        assertion = cfg.addresses != { } -> config.nanoSystem.systemType != "server";
+        assertion = config.nanoSystem.systemType == "server" -> cfg.addresses != { };
         message = "Servers are required to have at least one deployment address specified.";
       }
     ];
