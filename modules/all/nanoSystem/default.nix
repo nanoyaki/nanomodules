@@ -12,6 +12,7 @@
 {
   lib,
   config,
+  pkgs,
   ...
 }:
 
@@ -158,6 +159,8 @@ in
         message = "The root user is required to be a superuser";
       }
     ];
+
+    environment.systemPackages = [ pkgs.alacritty ];
 
     users.mutableUsers = false;
     users.users = mapAttrs (
