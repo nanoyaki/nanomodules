@@ -181,6 +181,6 @@ in
 
     networking.useDHCP = lib.mkDefault true;
 
-    utilities.comfort.enable = lib.mkDefault true;
+    nanoSystem.comfort-utilities.enable = lib.mkDefault true;
   };
 }
