@@ -34,7 +34,7 @@ in
   config = {
     nixpkgs.overlays =
       map (input: inputs.${input}) (
-        filter (input: inputs ? input) [
+        filter (input: inputs ? ${input}) [
           "nanopkgs"
           "lazy-apps"
           "nur"
