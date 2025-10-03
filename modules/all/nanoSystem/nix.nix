@@ -23,8 +23,8 @@ in
 {
   options.nanoSystem.nix.flake = mkOption {
     type = types.str;
-    default = "${config.hm.home.homeDirectory}/flake";
-    defaultText = literalExpression ''''${config.hm.home.homeDirectory}/flake'';
+    default = "${config.users.users.${config.nanoSystem.mainUserName}.home}/flake";
+    defaultText = literalExpression ''''${config.users.users.''${config.nanoSystem.mainUserName}.home}/flake'';
     example = "/etc/nixos";
     description = ''
       The location that contains the system's flake.

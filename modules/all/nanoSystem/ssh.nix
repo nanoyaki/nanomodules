@@ -14,8 +14,10 @@ in
 {
   options.nanoSystem.ssh.defaultId = mkOption {
     type = types.path;
-    default = "${config.hm.home.homeDirectory}/.ssh/id_${config.nanoSystem.mainUserName}_${config.networking.hostName}";
-    defaultText = literalExpression ''''${config.hm.home.homeDirectory}/.ssh/id_''${config.nanoSystem.mainUserName}_''${config.networking.hostName}'';
+    default = "${
+      config.users.users.${config.nanoSystem.mainUserName}.home
+    }/.ssh/id_${config.nanoSystem.mainUserName}_${config.networking.hostName}";
+    defaultText = literalExpression ''''${config.users.users.''${config.nanoSystem.mainUserName}.home}/.ssh/id_''${config.nanoSystem.mainUserName}_''${config.networking.hostName}'';
     example = literalExpression ''/etc/ssh/id_${config.networking.hostName}'';
     description = ''
       The default ssh id file for the main user

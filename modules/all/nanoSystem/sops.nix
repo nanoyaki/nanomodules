@@ -59,7 +59,7 @@ in
       inherit (cfg) defaultSopsFile;
       defaultSopsFormat = "yaml";
 
-      age.keyFile = "${config.hm.xdg.configHome}/sops/age/keys.txt";
+      age.keyFile = ".config/sops/age/keys.txt";
       secrets = mapAttrs' (
         _: user: nameValuePair user.hashedPasswordSopsKey { neededForUsers = true; }
       ) sopsPasswordUsers;
