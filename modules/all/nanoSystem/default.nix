@@ -91,7 +91,7 @@ in
               };
 
               home.stateVersion = mkOption {
-                type = types.strMatching ''\d{2}\.\d{2}'';
+                type = types.strMatching ''[0-9]{2}\.[0-9]{2}'';
                 default = "";
                 example = "25.11";
                 description = ''
