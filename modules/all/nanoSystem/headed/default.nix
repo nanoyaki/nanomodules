@@ -7,5 +7,6 @@
     ./networking.nix
     ./vscode.nix
     ./wayland.nix
+    ./keyboard.nix
   ];
 }
