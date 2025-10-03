@@ -31,7 +31,9 @@ in
   imports = optional (inputs ? sops-nix) inputs.sops-nix.nixosModules.sops;
 
   options.nanoSystem.sops = {
-    enable = mkEnableOption "sops-nix as the secrets manager";
+    enable = mkEnableOption "sops-nix as the secrets manager" // {
+      default = true;
+    };
     defaultSopsFile = mkOption {
       type = types.nullOr types.pathInStore;
       default = null;
