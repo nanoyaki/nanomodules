@@ -66,7 +66,7 @@ in
     };
 
     users.users = mapAttrs (_: user: {
-      hashedPasswordFile = config.sops.secrets.${user.sopsKey}.path;
+      hashedPasswordFile = config.sops.secrets.${user.hashedPasswordSopsKey}.path;
     }) sopsPasswordUsers;
   };
 }
