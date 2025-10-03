@@ -59,7 +59,9 @@ in
       inherit (cfg) defaultSopsFile;
       defaultSopsFormat = "yaml";
 
-      age.keyFile = ".config/sops/age/keys.txt";
+      age.keyFile = "${
+        config.users.users.${config.nanoSystem.mainUserName}.home
+      }/.config/sops/age/keys.txt";
       secrets = mapAttrs' (
         _: user: nameValuePair user.hashedPasswordSopsKey { neededForUsers = true; }
       ) sopsPasswordUsers;
