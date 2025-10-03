@@ -1,6 +1,5 @@
 {
   lib,
-  self,
   inputs,
   config,
   pkgs,
@@ -66,7 +65,6 @@ in
       home = {
         inherit username;
         inherit (user.home) stateVersion;
-        homeDirectory = config.users.users.${username}.home;
       };
     }) config.nanoSystem.users;
   };
