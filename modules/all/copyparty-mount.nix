@@ -51,31 +51,6 @@ in
       '';
     };
 
-    user = mkOption {
-      type = types.str;
-      default = "copyparty-mount";
-      example = "joe";
-      description = ''
-        The user that has full access to the mount.
-
-        It is not recommended to change this value but
-        rather to add your user to the group defined in
-        {option}`services.copyparty-mount.group`
-      '';
-    };
-
-    group = mkOption {
-      type = types.str;
-      default = "copyparty-mount";
-      example = "users";
-      description = ''
-        The group that has full access to the mount.
-
-        It is not recommended to change this value but
-        rather to add your user to this group.
-      '';
-    };
-
     copyparty.user = mkOption {
       type = types.str;
       default = "k";
@@ -122,14 +97,6 @@ in
   };
 
   config = mkIf cfg.enable {
-    assertions = [
-      {
-        assertion =
-          config.users.users.${cfg.user}.uid != null || config.users.groups.${cfg.group}.gid != null;
-        message = "Uid and gid must be set on the user and group";
-      }
-    ];
-
     environment.systemPackages = [ pkgs.rclone ];
 
     sops.templates."copyparty.conf" = {
@@ -143,26 +110,7 @@ in
           pass = cfg.copyparty.sopsPasswordPlaceholder;
         };
       };
-      owner = cfg.user;
       mode = "400";
-    };
-
-    users.users = mkIf (cfg.user == "copyparty-mount") {
-      copyparty-mount = {
-        isSystemUser = true;
-        inherit (cfg) group;
-        uid = 2000;
-      };
-    };
-
-    users.groups = mkIf (cfg.group == "copyparty-mount") {
-      copyparty-mount.gid = 2000;
-    };
-
-    # setgid
-    systemd.tmpfiles.settings."10-copyparty".${cfg.target}.d = {
-      inherit (cfg) user group;
-      mode = "2770";
     };
 
     fileSystems.${cfg.target} = {
@@ -172,9 +120,6 @@ in
         "config=${config.sops.templates."copyparty.conf".path}"
         "vfs-cache-mode=writes"
         "dir-cache-time=5s"
-        "uid=${toString config.users.users.${cfg.user}.uid}"
-        "gid=${toString config.users.groups.${cfg.group}.gid}"
-        "umask=007"
       ]
       ++ cfg.fsExtraOptions;
     };
