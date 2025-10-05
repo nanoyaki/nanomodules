@@ -1,5 +1,6 @@
 {
   lib,
+  pkgs,
   config,
   ...
 }:
@@ -75,6 +76,32 @@ in
       '';
     };
 
+    copyparty.user = mkOption {
+      type = types.str;
+      default = "k";
+      example = "joe";
+      description = ''
+        The user used for authenticating with copyparty.
+
+        This is not required and can be any value
+        unless `--usernames` is enabled
+      '';
+    };
+
+    copyparty.sopsPasswordPlaceholder = mkOption {
+      type = types.str;
+      default = "copyparty-mount";
+      example = "joe";
+      description = ''
+        The sops secrets file containing the *rclone
+        obfuscated password* used for authenticating
+        with copyparty.
+
+        Generate the obfuscated password using
+        {command}`rclone obscure <password>`.
+      '';
+    };
+
     fsExtraOptions = mkOption {
       type = types.listOf types.str;
       default = [
@@ -95,22 +122,58 @@ in
   };
 
   config = mkIf cfg.enable {
-    services.davfs2.enable = true;
+    assertions = [
+      {
+        assertion =
+          config.users.users.${cfg.user}.uid != null || config.users.groups.${cfg.group}.gid != null;
+        message = "Uid and gid must be set on the user and group";
+      }
+    ];
+
+    environment.systemPackages = [ pkgs.rclone ];
+
+    sops.templates."copyparty.conf" = {
+      file = (pkgs.formats.ini { }).generate "copyparty.conf.template" {
+        copyparty-dav = {
+          type = "webdav";
+          url = cfg.server;
+          vendor = "owncloud";
+          pacer_min_sleep = "0.01ms";
+          user = cfg.copyparty.user;
+          pass = cfg.copyparty.sopsPasswordPlaceholder;
+        };
+      };
+      owner = cfg.user;
+      mode = "400";
+    };
 
     users.users = mkIf (cfg.user == "copyparty-mount") {
-      copyparty-mount.isSystemUser = true;
+      copyparty-mount = {
+        isSystemUser = true;
+        inherit (cfg) group;
+        uid = 2000;
+      };
     };
 
     users.groups = mkIf (cfg.group == "copyparty-mount") {
-      copyparty-mount = { };
+      copyparty-mount.gid = 2000;
+    };
+
+    # setgid
+    systemd.tmpfiles.settings."10-copyparty".${cfg.target}.d = {
+      inherit (cfg) user group;
+      mode = "2770";
     };
 
     fileSystems.${cfg.target} = {
-      device = "${cfg.server}${cfg.path}";
-      fsType = "davfs";
+      device = "copyparty-dav:${cfg.path}";
+      fsType = "rclone";
       options = [
-        "uid=${config.users.groups.${cfg.user}.uid}"
-        "gid=${config.users.groups.${cfg.group}.gid}"
+        "config=${config.sops.templates."copyparty.conf".path}"
+        "vfs-cache-mode=writes"
+        "dir-cache-time=5s"
+        "uid=${toString config.users.users.${cfg.user}.uid}"
+        "gid=${toString config.users.groups.${cfg.group}.gid}"
         "umask=007"
       ]
       ++ cfg.fsExtraOptions;
