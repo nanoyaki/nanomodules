@@ -96,15 +96,5 @@ in
         "LC_CTYPE"
       ] (_: cfg.locale);
     };
-
-    environment.sessionVariables = config.i18n.extraLocaleSettings // {
-      LC_ALL = "";
-      LANGUAGE = lib.mkForce (
-        if builtins.isString cfg.language then
-          cfg.language
-        else
-          lib.strings.concatStrings (lib.strings.intersperse ":" cfg.language)
-      );
-    };
   };
 }
