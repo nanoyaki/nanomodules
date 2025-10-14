@@ -8,5 +8,6 @@
     ./vscode.nix
     ./wayland.nix
     ./keyboard.nix
+    ./plasma.nix
   ];
 }

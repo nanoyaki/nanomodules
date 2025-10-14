@@ -1,23 +1,37 @@
 {
+  lib,
   pkgs,
+  config,
   ...
 }:
 
+let
+  inherit (lib) mkEnableOption mkDefault;
+
+  cfg = config.nanoSystem.desktop.cosmic.enable;
+in
+
 {
-  services.desktopManager.cosmic = {
-    enable = true;
-    xwayland.enable = true;
+  options.nanoSystem.desktop.cosmic.enable = (mkEnableOption "cosmic") // {
+    default = true;
   };
 
-  environment.cosmic.excludePackages = with pkgs; [
-    cosmic-term
-    cosmic-edit
-    cosmic-store
-    cosmic-player
-  ];
+  config = {
+    services.desktopManager.cosmic = {
+      enable = cfg;
+      xwayland.enable = true;
+    };
 
-  services.displayManager = {
-    cosmic-greeter.enable = true;
-    defaultSession = "cosmic";
+    environment.cosmic.excludePackages = with pkgs; [
+      cosmic-term
+      cosmic-edit
+      cosmic-store
+      cosmic-player
+    ];
+
+    services.displayManager = {
+      cosmic-greeter.enable = true;
+      defaultSession = mkDefault "cosmic";
+    };
   };
 }
