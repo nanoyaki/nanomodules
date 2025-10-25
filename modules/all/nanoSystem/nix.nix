@@ -109,6 +109,5 @@ in
     };
 
     programs.direnv.enable = true;
-    environment.systemPackages = [ pkgs.nix-fast-build ];
   };
 }
