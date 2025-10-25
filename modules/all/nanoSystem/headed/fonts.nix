@@ -1,5 +1,4 @@
 {
-  inputs,
   lib,
   pkgs,
   ...
@@ -34,36 +33,6 @@
     gtk.font = {
       package = pkgs.noto-fonts-cjk-sans;
       name = "Noto Sans CJK JP";
-    };
-  };
-}
-// lib.optionalAttrs (inputs ? stylix) {
-  stylix.fonts = {
-    serif = {
-      name = "Noto Sans CJK JP";
-      package = pkgs.noto-fonts-cjk-sans;
-    };
-
-    sansSerif = {
-      name = "Noto Sans CJK JP";
-      package = pkgs.noto-fonts-cjk-sans;
-    };
-
-    monospace = {
-      name = "FiraCode Nerd Font";
-      package = pkgs.nerd-fonts.fira-code;
-    };
-
-    emoji = {
-      name = "Twitter Color Emoji";
-      package = pkgs.twemoji-color-font;
-    };
-
-    sizes = {
-      applications = 10;
-      terminal = 12;
-      desktop = 9;
-      popups = 9;
     };
   };
 }
