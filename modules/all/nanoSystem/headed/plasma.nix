@@ -7,21 +7,22 @@
 
 let
   inherit (lib) mkEnableOption mkIf;
-
-  cfg = config.nanoSystem.desktop.plasma;
 in
 
 {
-  options.nanoSystem.desktop.plasma = {
-    enable = mkEnableOption "plasma";
+  options.nanoSystem.desktop.plasma.enable = mkEnableOption "plasma";
 
-    isDefault = mkEnableOption "plasma as the default session";
-  };
-
-  config = mkIf cfg.enable {
+  config = mkIf config.nanoSystem.desktop.plasma.enable {
     services.desktopManager.plasma6 = {
       enable = true;
       enableQt5Integration = false;
+    };
+
+    services.displayManager.defaultSession = "plasma";
+    services.displayManager.sddm = {
+      enable = true;
+      wayland.enable = true;
+      wayland.compositor = "kwin";
     };
 
     environment.plasma6.excludePackages = with pkgs.kdePackages; [
@@ -34,7 +35,5 @@ in
       khelpcenter
       discover
     ];
-
-    services.displayManager.defaultSession = mkIf cfg.isDefault "plasma";
   };
 }

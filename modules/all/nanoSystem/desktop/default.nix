@@ -1,3 +1,6 @@
 {
-  imports = [ ../headed ];
+  imports = [
+    ../headed
+    ./networking.nix
+  ];
 }

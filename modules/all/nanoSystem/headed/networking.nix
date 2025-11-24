@@ -1,12 +1,9 @@
-{ lib, config, ... }:
-
-let
-  inherit (lib) filterAttrs mapAttrs;
-  superusers = filterAttrs (_: user: user.isSuperuser) config.nanoSystem.users;
-in
-
 {
-  users.users = mapAttrs (_: _: { extraGroups = [ "networkmanager" ]; }) superusers;
-
-  networking.networkmanager.enable = lib.mkDefault true;
+  networking.useDHCP = true;
+  networking.nameservers = [
+    "1.1.1.1"
+    "1.0.0.1"
+    "8.8.8.8"
+    "8.8.4.4"
+  ];
 }

@@ -6,9 +6,7 @@
 }:
 
 let
-  inherit (lib) mkEnableOption mkDefault;
-
-  cfg = config.nanoSystem.desktop.cosmic.enable;
+  inherit (lib) mkEnableOption mkIf;
 in
 
 {
@@ -16,9 +14,9 @@ in
     default = true;
   };
 
-  config = {
+  config = mkIf config.nanoSystem.desktop.cosmic.enable {
     services.desktopManager.cosmic = {
-      enable = cfg;
+      enable = true;
       xwayland.enable = true;
     };
 
@@ -29,9 +27,7 @@ in
       cosmic-player
     ];
 
-    services.displayManager = {
-      cosmic-greeter.enable = true;
-      defaultSession = mkDefault "cosmic";
-    };
+    services.displayManager.cosmic-greeter.enable = true;
+    services.displayManager.defaultSession = "cosmic";
   };
 }

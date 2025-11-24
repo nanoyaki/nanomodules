@@ -9,5 +9,6 @@
     ./wayland.nix
     ./keyboard.nix
     ./plasma.nix
+    ./gnome.nix
   ];
 }
